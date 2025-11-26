@@ -57,7 +57,6 @@ return {
 };
 };
 
-
 export function getAllTodos(query:{status?:statusType}){
    if(!query.status){
     return todos;

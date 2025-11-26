@@ -1,7 +1,7 @@
 import { Request,Response } from "express";
-import { Todo, updateTodo } from "../models/todo.model";
+import { updateTodo } from "../sql-models/todo.model";
 
-export const updateTodoController=(req:Request,res:Response)=>{
+export const updateTodoController=async (req:Request,res:Response)=>{
   try {
       const params=req.params;
   const todoId=params.todoId;
@@ -9,7 +9,7 @@ export const updateTodoController=(req:Request,res:Response)=>{
 
   const body = req.body;
 
-  const updatedtodo=updateTodo(numTodoId as number,body as Partial<Todo>);
+  const updatedtodo=await updateTodo(numTodoId,body);
 
   res.json({
     message:"edited successfully",

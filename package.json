@@ -7,8 +7,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-  "dev.http":"tsx  --watch src/main.ts",
-  "dev":"tsx --watch src/main.express.ts"
+    "dev.http": "tsx  --watch src/main.ts",
+    "dev": "tsx --watch src/main.express.ts",
+    "db":"tsx --watch src/lib/mysql.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
@@ -17,6 +18,7 @@
   },
   "dependencies": {
     "express": "^5.1.0",
+    "mysql2": "^3.15.3",
     "tsx": "^4.20.6"
   }
 }

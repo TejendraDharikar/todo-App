@@ -1,12 +1,12 @@
 import { Request,Response } from "express";
-import { deleteTodo } from "../models/todo.model";
+import { deleteTodo } from "../sql-models/todo.model";
 
-export const deleteTodoController=(req:Request,res:Response)=>{
+export const deleteTodoController=async(req:Request,res:Response)=>{
   try {
     const params=req.params;
 const todoId= parseInt(params.todoId as string);
 
-const deletedtodo=deleteTodo(todoId);
+const deletedtodo= await deleteTodo(todoId);
 
 res.json({
   message:"deleted successfully",
