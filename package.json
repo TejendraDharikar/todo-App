@@ -9,14 +9,18 @@
   "scripts": {
     "dev.http": "tsx  --watch src/main.ts",
     "dev": "tsx --watch src/main.express.ts",
-    "db":"tsx --watch src/lib/mysql.ts"
+    "db": "tsx --watch src/lib/mysql.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.1",
+    "dotenv": "^17.2.3",
+    "prisma": "^7.0.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.0.1",
+    "@prisma/client": "^7.0.1",
     "express": "^5.1.0",
     "mysql2": "^3.15.3",
     "tsx": "^4.20.6"
