@@ -1,6 +1,7 @@
 import {Request,Response} from 'express';
 import { statusType } from '../models/todo.model';
-import { getAllTodos } from '../sql-models/todo.model';
+import { getAllTodos } from '../prisma-models/todo.model';
+// import { getAllTodos } from '../sql-models/todo.model';
 
 export const getAllTodosController = async(req:Request, res:Response) => {
   const query=req.query;

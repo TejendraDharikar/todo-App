@@ -1,5 +1,6 @@
 import { Request,Response } from "express"
-import { getTodoById } from "../sql-models/todo.model";
+import { getTodoById } from "../prisma-models/todo.model";
+// import { getTodoById } from "../sql-models/todo.model";
 
 
 export const getTodoByIdController =async (req:Request,res:Response)=>{

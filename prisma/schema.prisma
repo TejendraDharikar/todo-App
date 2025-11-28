@@ -13,18 +13,19 @@ datasource db {
   provider = "mysql"
 }
 
-enum TaskStatus {
-  IN_PROGRESS
-  COMPLETED
-  PENDING
+ enum TaskStatus {
+  in_progress
+  completed 
+  pending
 }
 
 model tasks {
   id           Int        @id @default(autoincrement())
   title        String
-  status       TaskStatus @default(PENDING)
+  status       TaskStatus @default(pending)
   description  String?    @db.Text
-  completed_at DateTime?
+  completed_at DateTime?  
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
+  user_id      Int
 }
