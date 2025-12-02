@@ -14,10 +14,9 @@ export const updateTodoController=async (req:Request,res:Response)=>{
 
   res.json({
     message:"edited successfully",
-    data:updatedtodo
+    data:updatedtodo,
   });
   } catch (error:any) {
     res.status(404).json({error:error.message});
   }
-
 };

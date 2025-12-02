@@ -13,9 +13,9 @@ datasource db {
   provider = "mysql"
 }
 
- enum TaskStatus {
+enum TaskStatus {
   in_progress
-  completed 
+  completed
   pending
 }
 
@@ -24,8 +24,16 @@ model tasks {
   title        String
   status       TaskStatus @default(pending)
   description  String?    @db.Text
-  completed_at DateTime?  
+  completed_at DateTime?
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
-  user_id      Int
+
+  user_id Int   
+  user    users @relation(fields: [user_id], references: [id])
+}
+
+model users {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  tasks tasks[]
 }

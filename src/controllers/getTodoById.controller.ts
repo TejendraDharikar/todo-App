@@ -13,7 +13,7 @@ const todo= await getTodoById(numTodoId);
 console.log(todo);
 res.json({
   Message:"data fetched by id",
-  data: todo
+  data: todo,
 });
   } catch (error:any) {
     res.status(404).json({ error: error.message });

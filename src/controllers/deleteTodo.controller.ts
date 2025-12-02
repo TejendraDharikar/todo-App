@@ -16,5 +16,4 @@ res.json({
   } catch (error:any) {
     res.status(404).json({error:error.message});
   }
-
 };
