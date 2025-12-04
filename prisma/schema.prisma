@@ -28,12 +28,32 @@ model tasks {
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
 
-  user_id Int   
-  user    users @relation(fields: [user_id], references: [id])
+  user_id         Int
+  user            users              @relation(fields: [user_id], references: [id])
+  tasksCategories tasks_categories[]
 }
 
 model users {
   id    Int     @id @default(autoincrement())
   email String  @unique
   tasks tasks[]
+}
+
+model categories {
+  id              Int                @id @default(autoincrement())
+  title           String
+  description     String?
+  created_at      DateTime           @default(now())
+  updated_at      DateTime           @updatedAt
+  tasksCategories tasks_categories[]
+}
+
+model tasks_categories {
+  task_id     Int
+  category_id Int
+
+  task     tasks      @relation(fields: [task_id], references: [id])
+  category categories @relation(fields: [category_id], references: [id])
+
+  @@unique([task_id, category_id])
 }

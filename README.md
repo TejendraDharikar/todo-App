@@ -6,8 +6,14 @@ to apply schema on the database:
 npx prisma db push
 ```
 
-To gnenerate types of the prisma schema:
+To generate types of the prisma schema:
 
 ```bash
 npx prisma generate
+```
+
+To view the database:
+
+```
+npx prisma studio
 ```

@@ -1,3 +1,4 @@
+import { AssignCategoryToTaskInput } from "../controllers/todos/assignCategoryToTask.controller";
 import { Prisma, TaskStatus } from "../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 
@@ -22,7 +23,6 @@ const createdTask = await prisma.tasks.create({
 })
 return createdTask;
 }
-
 
 type TGetAllTodosWhereInput = {
   status?:TaskStatus ;
@@ -96,6 +96,7 @@ export async function getTodoById(id:number){
 };
 
 export async function updateTodo(id:number,data:Prisma.tasksUpdateInput){
+  await getTodoById(id);
   const updateTodo=await prisma.tasks.update({
     where:{
       id
@@ -105,7 +106,7 @@ export async function updateTodo(id:number,data:Prisma.tasksUpdateInput){
 };
 
 export async function deleteTodo(todoId:number){
-
+await getTodoById(todoId);
  const taskFound=await prisma.tasks.findFirst({
 where:{
   id:todoId
@@ -122,3 +123,15 @@ where:{
     },
   })
 }
+
+
+export async function assignCategoryToTask(data:AssignCategoryToTaskInput){
+  const assigned =await prisma.tasks_categories.create({
+    data:data,
+    include:{
+      task:true,
+      category:true
+    },
+  });
+  return assigned;
+};
