@@ -43,7 +43,7 @@ export async function updateCategory(id:number,data:UpdateCategoryInput){
     data:{
       title:data.title||categoryFound.title,
       description:data.description||categoryFound.description,
-    },
+    }
   });
   return updatedCategory;
 };
@@ -58,4 +58,4 @@ export async function deleteCategory(id:number){
     },
   });
   return deletedCategory;
-}
+};
