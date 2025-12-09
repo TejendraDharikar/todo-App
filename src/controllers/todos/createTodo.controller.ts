@@ -1,5 +1,6 @@
 import { Request,Response } from "express";
-import { createTodo } from "../prisma-models/todo.model";
+import { createTodo } from "../../prisma-models/todo.model";
+
 // import { createTodo } from "../sql-models/todo.model";
 // import { createTodo } from "../models/todo.model";
 

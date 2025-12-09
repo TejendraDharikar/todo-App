@@ -29,13 +29,13 @@ model tasks {
   updated_at   DateTime   @updatedAt
 
   user_id         Int
-  user            users              @relation(fields: [user_id], references: [id])
+  user            users              @relation(fields: [user_id], references: [id], onDelete: Cascade)
   tasksCategories tasks_categories[]
 }
 
 model users {
   id         Int      @id @default(autoincrement())
-  username   String   @unique
+  name       String   @unique
   email      String   @unique
   password   String   @db.VarChar(15)
   created_at DateTime @default(now())
@@ -56,8 +56,8 @@ model tasks_categories {
   task_id     Int
   category_id Int
 
-  task     tasks      @relation(fields: [task_id], references: [id])
-  category categories @relation(fields: [category_id], references: [id])
+  task     tasks      @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  category categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
 
   @@unique([task_id, category_id])
 }

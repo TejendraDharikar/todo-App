@@ -86,7 +86,7 @@ const totalTasks = await prisma.tasks.count({
 export async function getTodoById(id:number){
   const getTodoById =await prisma.tasks.findFirst({
     where:{
-      id: id
+      id,
     }
   });
   if(!getTodoById){

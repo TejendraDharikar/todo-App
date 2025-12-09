@@ -3,7 +3,7 @@ import { z } from "zod";
 import { loginUser } from "../../prisma-models/user.model";
 
 const loginUserSchema=z.object({
-  username:z.string().min(2).max(40),
+  name:z.string().min(2).max(40),
   password:z.string().min(6).max(15)
 });
 

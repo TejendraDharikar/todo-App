@@ -1,6 +1,8 @@
+
 import {Request,Response} from 'express';
-import { getAllTodos } from '../prisma-models/todo.model';
-import { TaskStatus } from '../generated/prisma/enums';
+import { getAllTodos } from '../../prisma-models/todo.model';
+import { TaskStatus } from '../../generated/prisma/enums';
+
 // import { getAllTodos } from '../sql-models/todo.model';
 
 export const getAllTodosController = async(req:Request, res:Response) => {

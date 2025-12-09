@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { getUserById } from "../../prisma-models/user.model";
 
-export async function getUserByIdControler(req:Request, res:Response){
+export async function getUserByIdController(req:Request, res:Response){
  
-  const userId = Number(req.params.userId);
+  const userId = parseInt(req.params.userId as string);
 
   const user= await getUserById(userId);
 

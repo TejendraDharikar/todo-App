@@ -1,5 +1,6 @@
 import { Request,Response } from "express";
-import { deleteTodo } from "../prisma-models/todo.model";
+import { deleteTodo } from "../../prisma-models/todo.model";
+
 // import { deleteTodo } from "../sql-models/todo.model";
 
 export const deleteTodoController=async(req:Request,res:Response)=>{

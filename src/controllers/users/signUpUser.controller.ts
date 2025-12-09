@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import {z } from "zod";
 import { createUser } from "../../prisma-models/user.model";
-import { use } from "react";
 
 const SignUpUserSchema = z.object({
   email:z.string().email(),
-  username:z.string().min(2).max(50),
+  name:z.string().min(2).max(50),
   password:z.string().min(6).max(15),
 })
 
@@ -28,7 +27,7 @@ if (!parsedData.success){
 }
 
 // data is valid 
-const user = await createUser(parsedData.data)
+const user = await createUser(parsedData.data);
 
     res.json({
         message:"user signed up successfully",

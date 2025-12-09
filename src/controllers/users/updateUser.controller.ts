@@ -3,7 +3,7 @@ import { z } from "zod";
 import { updateUser } from "../../prisma-models/user.model";
 
 const UpdateUserSchema = z.object({
-  username: z.string().min(1).optional(),
+  name: z.string().optional(),
   email: z.string().email().optional(),
   password: z.string().min(6).optional(),
 });
@@ -11,8 +11,7 @@ const UpdateUserSchema = z.object({
 export type TUpdateUserSchema = z.infer<typeof UpdateUserSchema>;
 
 export async function updateUserController(req:Request,res:Response){
-
-  const userId = Number(req.params.userId);
+  const userId = parseInt(req.params.userId as string);
   const body = req.body;
 
   const parsedBody= UpdateUserSchema.safeParse(body);
@@ -25,7 +24,7 @@ export async function updateUserController(req:Request,res:Response){
     return;
   }
 
-  const updatedUser= updateUser(userId,parsedBody.data);
+  const updatedUser=await updateUser(userId,parsedBody.data);
 
   res.json({
     message: "User updated successfully",

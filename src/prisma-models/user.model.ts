@@ -3,30 +3,26 @@ import { TSignUpUserSchema } from "../controllers/users/signUpUser.controller";
 import { TUpdateUserSchema } from "../controllers/users/updateUser.controller";
 import { prisma } from "../lib/prisma";
 
-export async function createUser(data:TSignUpUserSchema){
+export async function createUser(body:TSignUpUserSchema){
 
   const userFound = await prisma.users.findFirst({
     where:{
       OR:[
-        {
-          email:data.email,
-      },
-      {
-        username:data.username,
-      },
+        {name:body.name},
+        {email:body.email}
     ],
     },
   });
   if(userFound){
     throw new Error(`user already exists`);
-  }
+  };
 
 
   const createdUser=await prisma.users.create({
     data:{
-      email:data.email,
-      username:data.username,
-      password:data.password,
+      email:body.email,
+      name:body.name,
+      password:body.password,
     },
   })
   return createdUser;
@@ -36,7 +32,7 @@ export async function loginUser(data:TloginUserSchema) {
 
   const dataFound =await prisma.users.findFirst({
     where:{
-      username:data.username
+      name:data.name
     }
   })
 if (!dataFound){
@@ -44,7 +40,7 @@ if (!dataFound){
 };
 
 if(data.password!==dataFound.password){
-  throw new Error(`username or password invalid`);
+  throw new Error(`name or password invalid`);
 
 }
   return dataFound; 
@@ -56,16 +52,13 @@ export async function getAllUsers(){
 }
 
 export async function getUserById(id:number){
+  
   const user=await prisma.users.findUnique({
-    where:{
-      id,
-    },
+    where:{id:id},
   });
-
   if(!user){
     throw new Error (`user with id ${id} not found`);
   }
-
   return user;
 };
 
@@ -74,11 +67,11 @@ export async function updateUser(id:number,data:TUpdateUserSchema){
 
   const updatedUser=await prisma.users.update({
     where:{
-      id, 
+      id:id
     },
     data:{
       email:data.email || userFound.email,
-      username:data.username || userFound.username,
+      name:data.name || userFound.name,
       password:data.password || userFound.password,
     },
   });
@@ -86,12 +79,32 @@ export async function updateUser(id:number,data:TUpdateUserSchema){
 };
 
 export async function deleteUser(id:number){
-  const userFound= await getUserById(id);
+  const userFound = await getUserById(id);
 
-  const deletedUser=await prisma.users.delete({
-    where:{
-      id,
-    },
+  // find tasks belonging to the user
+  const userTasks = await prisma.tasks.findMany({
+    where: { user_id: id },
+    select: { id: true },
   });
+  const taskIds = userTasks.map((t) => t.id);
+
+  // perform deletions in a single transaction to avoid partial state
+  const deletedUser = await prisma.$transaction(async (tx) => {
+    if (taskIds.length > 0) {
+      // remove join entries first to avoid FK violations
+      await tx.tasks_categories.deleteMany({
+        where: { task_id: { in: taskIds } },
+      });
+
+      // remove tasks for the user
+      await tx.tasks.deleteMany({
+        where: { id: { in: taskIds } },
+      });
+    }
+
+    // finally delete the user
+    return tx.users.delete({ where: { id: id } });
+  });
+
   return deletedUser;
 };
