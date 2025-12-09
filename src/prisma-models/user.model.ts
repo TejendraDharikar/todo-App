@@ -1,6 +1,7 @@
 import { TloginUserSchema } from "../controllers/users/loginUser.controller";
 import { TSignUpUserSchema } from "../controllers/users/signUpUser.controller";
 import { TUpdateUserSchema } from "../controllers/users/updateUser.controller";
+import { comparePassword } from "../lib/hash";
 import { prisma } from "../lib/prisma";
 
 export async function createUser(body:TSignUpUserSchema){
@@ -39,10 +40,13 @@ if (!dataFound){
   throw new Error(`you are not registered! please register. `);
 };
 
-if(data.password!==dataFound.password){
-  throw new Error(`name or password invalid`);
+//check if password matches
+const isPasswordCorrect=await comparePassword(dataFound.password,data.password)
 
+if(!isPasswordCorrect){
+  throw new Error(`username or password incorrect !!`);
 }
+
   return dataFound; 
 }
 
@@ -65,6 +69,21 @@ export async function getUserById(id:number){
 export async function updateUser(id:number,data:TUpdateUserSchema){
  const userFound= await getUserById(id);
 
+if(userFound.email!==data.email){
+
+const emailsFound=await prisma.users.findMany({
+  where:{
+    email:data.email ||'',
+  }
+ });
+
+ if (emailsFound){
+  throw new Error(`email already exist use different error`)
+ };
+};
+
+ 
+
   const updatedUser=await prisma.users.update({
     where:{
       id:id
@@ -79,32 +98,13 @@ export async function updateUser(id:number,data:TUpdateUserSchema){
 };
 
 export async function deleteUser(id:number){
-  const userFound = await getUserById(id);
+  
+ const userFound = await getUserById(id);
 
-  // find tasks belonging to the user
-  const userTasks = await prisma.tasks.findMany({
-    where: { user_id: id },
-    select: { id: true },
+  const deletedUser=await prisma.users.delete({
+    where:{
+      id:id
+    },
   });
-  const taskIds = userTasks.map((t) => t.id);
-
-  // perform deletions in a single transaction to avoid partial state
-  const deletedUser = await prisma.$transaction(async (tx) => {
-    if (taskIds.length > 0) {
-      // remove join entries first to avoid FK violations
-      await tx.tasks_categories.deleteMany({
-        where: { task_id: { in: taskIds } },
-      });
-
-      // remove tasks for the user
-      await tx.tasks.deleteMany({
-        where: { id: { in: taskIds } },
-      });
-    }
-
-    // finally delete the user
-    return tx.users.delete({ where: { id: id } });
-  });
-
   return deletedUser;
 };

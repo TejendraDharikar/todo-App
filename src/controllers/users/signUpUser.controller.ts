@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {z } from "zod";
 import { createUser } from "../../prisma-models/user.model";
+import { hashPassword } from "../../lib/hash";
 
 const SignUpUserSchema = z.object({
   email:z.string().email(),
@@ -26,8 +27,14 @@ if (!parsedData.success){
    return;
 }
 
+//hashing the password
+const hashedPassword=await hashPassword(parsedData.data.password);
+
 // data is valid 
-const user = await createUser(parsedData.data);
+const user = await createUser({
+  ...parsedData.data,
+ password:hashedPassword,
+});
 
     res.json({
         message:"user signed up successfully",
