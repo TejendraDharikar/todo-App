@@ -10,7 +10,7 @@ const SignUpUserSchema = z.object({
 })
 
 
-export type TSignUpUserSchema = z.infer<typeof SignUpUserSchema>
+export type TSignUpUserSchema = z.infer<typeof SignUpUserSchema>;
 
 export async function signUpUserController(req:Request,res:Response){
   const body = req.body;
