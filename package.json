@@ -12,6 +12,7 @@
     "db": "tsx --watch src/lib/mysql.ts"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.5",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
@@ -26,6 +27,7 @@
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^7.1.0",
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "express": "^5.1.0",
     "mysql2": "^3.15.3",
     "pg": "^8.16.3",

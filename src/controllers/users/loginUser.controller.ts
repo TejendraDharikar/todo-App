@@ -9,6 +9,13 @@ const loginUserSchema=z.object({
 
 export type TloginUserSchema = z.infer<typeof loginUserSchema>
 
+export let loggedInUsers :string[] = [];
+
+export function removeUser(token:string){
+loggedInUsers=loggedInUsers.filter((userToken)=>userToken!==token);
+}
+
+
 export async function loginUserController(req:Request,res:Response){
 const body = req.body;
  const parsedData = loginUserSchema.safeParse(body);
@@ -16,6 +23,7 @@ const body = req.body;
  if(!parsedData.success){
   res.status(400).json({
     message:"invalid input data",
+    errors:parsedData.error,
   });
   return;
  }
@@ -25,8 +33,20 @@ const body = req.body;
 //  data valid
 const user = await loginUser(parsedData.data);
 
+const randomNumberOfLength6 = Math.floor(Math.random()*1000000);
+const randomString = randomNumberOfLength6.toString();
+
+loggedInUsers.push(randomString);
+
+res.cookie("token",randomString,{
+  httpOnly: true,
+});
+
 res.json({
   message:"logged in !!",
-  data:user,
+  data:{
+    ...user,
+    token:randomString
+  },
 })
 }

@@ -5,15 +5,21 @@ import { loginUserController } from "../controllers/users/loginUser.controller";
 import { signUpUserController } from "../controllers/users/signUpUser.controller";
 import { updateUserController } from "../controllers/users/updateUser.controller";
 import { getUserByIdController } from "../controllers/users/getUserById.controller";
+import { getMeUserController } from "../controllers/users/getMeUser.controller";
+import { logoutUserController } from "../controllers/users/logoutUser.controller";
 
 
 export async function createUserRouter(app:Application){
 app.post('/users/sign-up',signUpUserController);
 app.post('/users/login',loginUserController);
 
+app.get('/users/@me',getMeUserController);
+
 app.get('/users/:userId',getUserByIdController);
 app.get('/users',getAllUsersController);
 
 app.put('/users/:userId',updateUserController);
 app.delete('/users/:userId',deleteUserController);
+
+app.post('/users/logout',logoutUserController)
 }
