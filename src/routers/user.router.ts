@@ -7,19 +7,21 @@ import { updateUserController } from "../controllers/users/updateUser.controller
 import { getUserByIdController } from "../controllers/users/getUserById.controller";
 import { getMeUserController } from "../controllers/users/getMeUser.controller";
 import { logoutUserController } from "../controllers/users/logoutUser.controller";
+import { checkAuth } from "../middleware/checkAuth";
+import { generateAccessControlMiddleware } from "../middleware/generateAccessControlMiddleware";
 
 
 export async function createUserRouter(app:Application){
 app.post('/users/sign-up',signUpUserController);
 app.post('/users/login',loginUserController);
 
-app.get('/users/@me',getMeUserController);
+app.get('/users',checkAuth,generateAccessControlMiddleware(["super_admin"]),getAllUsersController);
 
-app.get('/users/:userId',getUserByIdController);
-app.get('/users',getAllUsersController);
+app.put('/users/:userId',checkAuth,generateAccessControlMiddleware(["user","super_admin","admin"]),updateUserController);
+app.delete('/users/:userId',checkAuth,generateAccessControlMiddleware(["user","super_admin","admin"]),deleteUserController);
 
-app.put('/users/:userId',updateUserController);
-app.delete('/users/:userId',deleteUserController);
+app.get('/users/@me',checkAuth ,generateAccessControlMiddleware(["user","super_admin","admin"]),getMeUserController);
+app.get('/users/:userId',checkAuth ,generateAccessControlMiddleware(["user","super_admin","admin"]),getUserByIdController);
 
-app.post('/users/logout',logoutUserController)
+app.post('/users/logout',checkAuth,logoutUserController)
 }

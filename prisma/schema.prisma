@@ -33,6 +33,12 @@ model tasks {
   tasksCategories tasks_categories[]
 }
 
+enum Roles {
+  user
+  admin
+  super_admin
+}
+
 model users {
   id         Int      @id @default(autoincrement())
   name       String   @unique
@@ -40,7 +46,18 @@ model users {
   password   String   @db.VarChar(225)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  tasks      tasks[]
+
+  role Roles @default(user)
+
+  tasks        tasks[]
+  userSessions UserSession[]
+}
+
+model UserSession {
+  id         Int    @id @default(autoincrement())
+  user_id    Int
+  user       users  @relation(fields: [user_id], references: [id])
+  session_id String
 }
 
 model categories {

@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { loggedInUsers, removeUser } from "./loginUser.controller";
+import { prisma } from "../../lib/prisma";
 
 export async function logoutUserController(req:Request,res:Response){
   const token = req.cookies.token as string;
@@ -8,13 +8,21 @@ export async function logoutUserController(req:Request,res:Response){
     throw new Error(`you are not logged in!!`)
   }
 
-  const userFound =loggedInUsers.find(userToken=>userToken===token)
+  const userFound =await prisma.userSession.findFirst({
+    where:{
+      session_id:token,
+    },
+  });
 
   if(!userFound){
     throw new Error(`you are not logged in!!`) 
   }
 
-  removeUser(token);
+  await prisma.userSession.delete({
+    where:{
+      id:userFound.id,
+    }
+  })
 
 res.clearCookie("token");
 

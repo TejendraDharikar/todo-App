@@ -6,7 +6,8 @@ import { hashPassword } from "../../lib/hash";
 const SignUpUserSchema = z.object({
   email:z.string().email(),
   name:z.string().min(2).max(50),
-  password:z.string().min(6).max(15),
+  password:z.string().min(6).max(70),
+ 
 })
 
 
