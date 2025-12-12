@@ -40,6 +40,11 @@ await prisma.userSession.create({
 
 res.cookie("token",randomString,{
   httpOnly: true,
+  maxAge:1*60*1000,
+  domain:"localhost", // if value:"*.skillprompt.com" then only allow "skillprompt.com" and "backend.skillprompt.com" 
+  secure:false, // in production keep it always true
+  sameSite:"lax",
+  path:"/",
 });
 
 res.json({
