@@ -10,18 +10,18 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/', 
-  (req, res,next) => {
- console.log("1 received req on /");
- const user=req.query.user;
- if(user==="ram"){
- next();
- }else{
-  res.status(401).json({
-    message:"invalid user",
-  });
- };
+//   (req, res,next) => {
+//  console.log("1 received req on /");
+//  const user=req.query.user;
+//  if(user==="ram"){
+//  next();
+//  }else{
+//   res.status(401).json({
+//     message:"invalid user",
+//   });
+//  };
 
-},
+// },
   (req, res) => {
   // res.send("hello from express");
   res.json({

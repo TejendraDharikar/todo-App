@@ -36,6 +36,7 @@ const user = await createUser({
   ...parsedData.data,
  password:hashedPassword,
 });
+ console.log("POST /users/sign-up hit");
 
     res.json({
         message:"user signed up successfully",

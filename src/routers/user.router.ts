@@ -7,11 +7,12 @@ import { updateUserController } from "../controllers/users/updateUser.controller
 import { getUserByIdController } from "../controllers/users/getUserById.controller";
 import { getMeUserController } from "../controllers/users/getMeUser.controller";
 import { logoutUserController } from "../controllers/users/logoutUser.controller";
-import { checkAuth } from "../middleware/checkAuth";
+import { checkAuth, checkRefreshToken } from "../middleware/checkAuth";
 import { generateAccessControlMiddleware } from "../middleware/generateAccessControlMiddleware";
+import { refreshTokenController } from "../controllers/users/refreshToken.controller";
 
 
-export async function createUserRouter(app:Application){
+export function createUserRouter(app:Application){
 app.post('/users/sign-up',signUpUserController);
 app.post('/users/login',loginUserController);
 
@@ -23,5 +24,7 @@ app.delete('/users/:userId',checkAuth,generateAccessControlMiddleware(["user","s
 app.get('/users/@me',checkAuth ,generateAccessControlMiddleware(["user","super_admin","admin"]),getMeUserController);
 app.get('/users/:userId',checkAuth ,generateAccessControlMiddleware(["user","super_admin","admin"]),getUserByIdController);
 
-app.post('/users/logout',checkAuth,logoutUserController)
+app.post('/users/logout',checkAuth,logoutUserController);
+
+app.get('/users/refresh-token',checkRefreshToken,refreshTokenController);
 }

@@ -7,7 +7,7 @@ const adapter = new PrismaMariaDb({
   password:"shero1234",
   port:3307,
   host:"localhost",
-  database:"todo_app",
+  database:"todo_app_prisma",
   connectionLimit: 5
 })
 export const prisma = new PrismaClient({ 

@@ -57,7 +57,7 @@ model UserSession {
   id         Int    @id @default(autoincrement())
   user_id    Int
   user       users  @relation(fields: [user_id], references: [id])
-  session_id String
+  session_id String @db.VarChar(512)
 }
 
 model categories {

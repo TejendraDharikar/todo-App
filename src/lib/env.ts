@@ -1,0 +1,14 @@
+import {config} from 'dotenv';
+
+config({
+  path:".env",
+});
+
+
+export const ENV = {
+  JWT_SECRET: process.env.JWT_SECRET || "key",
+  JWT_EXPIRTATION_TIME_IN_SECONDS:Number(process.env.JWT_EXPIRTATION_TIME_IN_SECONDS) || 60 ,
+  JWT_TOKEN_COOKIE_AGE_IN_SECONDS:Number(process.env.JWT_TOKEN_COOKIE_AGE_IN_SECONDS) || 60,
+  REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS:Number(process.env.REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS) || 120,
+  REFRESH_TOKEN_COOKIE_AGE_IN_SECONDS:Number(process.env.REFRESH_TOKEN_COOKIE_AGE_IN_SECONDS) || 120,
+}
