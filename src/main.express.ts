@@ -4,10 +4,15 @@ import { todoRouters } from "./routers/todo.routers";
 import { createCategoryRouter } from "./routers/category.router";
 import { createUserRouter } from "./routers/user.router";
 import cookieParser from 'cookie-parser';
+import { authRouter } from './googleAuth/authRouter.js';
+import "./googleAuth/passport.js";
+import { passportConfig } from './googleAuth/config.js';
+
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
 
 app.get('/', 
 //   (req, res,next) => {
@@ -29,7 +34,8 @@ app.get('/',
   });
 });
 
-
+passportConfig(app);
+authRouter(app);
 todoRouters(app);
 createCategoryRouter(app);
 createUserRouter(app);

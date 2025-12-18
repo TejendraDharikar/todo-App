@@ -41,9 +41,11 @@ enum Roles {
 
 model users {
   id         Int      @id @default(autoincrement())
-  name       String   @unique
+  name       String?  @unique
   email      String   @unique
-  password   String   @db.VarChar(225)
+  googleId   String?  @unique
+  avatar     String?  @db.VarChar(512)
+  password   String?  @db.VarChar(225)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 

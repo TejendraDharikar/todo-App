@@ -3,7 +3,7 @@ import { Roles } from "../generated/prisma/enums";
 import { ENV } from "./env";
 
 
-type TTokenPayload={
+export type TTokenPayload={
   id:number;
   name:string;
   email:string;

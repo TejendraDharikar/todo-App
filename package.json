@@ -14,11 +14,14 @@
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.5",
+    "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.1",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.17",
     "@types/pg": "^8.15.6",
     "dotenv": "^17.2.3",
-    "prisma": "^7.1.0",
+    "prisma": "^7.2.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
@@ -26,12 +29,16 @@
     "@ljharb/tsconfig": "^0.3.2",
     "@prisma/adapter-mariadb": "^7.0.1",
     "@prisma/adapter-pg": "^7.1.0",
-    "@prisma/client": "^7.1.0",
+    "@prisma/client": "^7.2.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
+    "effect": "^3.19.12",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.15.3",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^8.16.3",
     "zod": "^4.1.13"
   }

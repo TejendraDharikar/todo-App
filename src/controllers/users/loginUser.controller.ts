@@ -34,8 +34,8 @@ const user = await loginUser(parsedData.data);
 
 const accessToken = generateToken({
   id:user.id,
-  name:user.name,
-  email:user.email,
+  name:user.name || "",
+  email:user.email || "",
   role:user.role
 },
 ENV.JWT_EXPIRTATION_TIME_IN_SECONDS);
@@ -43,8 +43,8 @@ ENV.JWT_EXPIRTATION_TIME_IN_SECONDS);
 
 const refreshToken= generateToken({
    id:user.id,
-  name:user.name,
-  email:user.email,
+  name:user.name || "",
+  email:user.email || "",
   role:user.role,
 }, ENV.REFRESH_TOKEN_EXPIRATION_TIME_IN_SECONDS);
 
