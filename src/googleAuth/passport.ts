@@ -4,12 +4,13 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { prisma } from "../lib/prisma";
 import { ENV } from "../lib/env";
 
+
 passport.use(
   new GoogleStrategy(
     {
-      clientID: "1083985565328-rirqpkbrs8ug8a59230a2hm5hq7i95lr.apps.googleusercontent.com",
-      clientSecret: "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",
-      callbackURL: "http://localhost:4000/auth/google/callback",
+      clientID: ENV.GOOGLE_CLIENT_ID || "",
+      clientSecret: ENV.GOOGLE_CLIENT_SECRET ||"",
+      callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
     
@@ -45,7 +46,7 @@ passport.use(
 );
 
 passport.serializeUser((user: any, done) => {
-  done(null, user.id); // store user ID in session
+  done(null, user.id); 
 });
 
 passport.deserializeUser(async (id: number, done) => {
@@ -58,5 +59,4 @@ passport.deserializeUser(async (id: number, done) => {
 });
 
 
-// Export passport so routes can use it
 export default passport;
