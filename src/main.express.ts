@@ -4,9 +4,9 @@ import { todoRouters } from "./routers/todo.routers";
 import { createCategoryRouter } from "./routers/category.router";
 import { createUserRouter } from "./routers/user.router";
 import cookieParser from 'cookie-parser';
-// import { authRouter } from './googleAuth/authRouter.js';
-// import "./googleAuth/passport.js";
-// import { passportConfig } from './googleAuth/config.js';
+import { validateAccessToken } from '@baijanstack/express-auth';
+import { initAuthConfig } from './lib/auth/config.js';
+
 
 
 const app = express();
@@ -34,8 +34,12 @@ app.get('/',
   });
 });
 
-// passportConfig(app);
-// authRouter(app);
+initAuthConfig(app);
+
+app.get("/protected", validateAccessToken, (req, res) => {
+  console.log("Logged in user:", (req as any).user);
+  res.send("Hello World");
+});
 todoRouters(app);
 createCategoryRouter(app);
 createUserRouter(app);
